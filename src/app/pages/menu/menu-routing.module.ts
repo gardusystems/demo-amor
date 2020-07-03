@@ -19,6 +19,10 @@ const routes: Routes = [
           import("../tabs/tabs.module").then((m) => m.TabsPageModule),
       },
       {
+        path: 'contact',
+        loadChildren: () => import('../contact/contact.module').then( m => m.ContactPageModule)
+      },
+      {
         path: "**",
         redirectTo: "tabs"
       }
