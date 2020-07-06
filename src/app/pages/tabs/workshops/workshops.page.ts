@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-workshops',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkshopsPage implements OnInit {
   workshops = [{}, {}, {},{},{},{},{}];
-  constructor() { }
+  constructor(private navCtrl:NavController) { }
 
   ngOnInit() {
+  }
+  
+  id = 1;
+
+  goToWorkship(){
+    this.navCtrl.navigateForward(`menu/workshop/${this.id}`);
   }
 
 }
