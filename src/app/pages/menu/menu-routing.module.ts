@@ -30,6 +30,14 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'do-workshop',
+        loadChildren: () => import('../do-workshop/do-workshop.module').then( m => m.DoWorkshopPageModule)
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('../admin/admin.module').then( m => m.AdminPageModule)
+      },
+      {
         path: 'adminws',
         loadChildren: () => import('../adminws/adminws.module').then( m => m.AdminwsPageModule)
       },
