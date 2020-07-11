@@ -28,6 +28,15 @@ export class AuthenticateService {
   addWorkshop(wsData){
     return this.storage.set("ws",wsData);
   }
+
+  async isLoggedIn(){
+    const isUserLoggedIn = await this.storage.get("isUserLoggedIn");
+    if(isUserLoggedIn){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }
 
 

@@ -12,7 +12,6 @@ const routes: Routes = [
     path: "menu",
     loadChildren: () =>
       import("./pages/menu/menu.module").then((m) => m.MenuPageModule),
-      canActivate: [LoginGuard]
   },
   {
     path: 'login',
@@ -29,6 +28,10 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
+  },
+  {
+    path: 'adminuser',
+    loadChildren: () => import('./pages/admin/adminuser/adminuser.module').then( m => m.AdminuserPageModule)
   },
 
 ];

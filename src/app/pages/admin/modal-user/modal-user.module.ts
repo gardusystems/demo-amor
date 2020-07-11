@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DoWorkshopPageRoutingModule } from './do-workshop-routing.module';
+import { ModalUserPageRoutingModule } from './modal-user-routing.module';
 
-import { DoWorkshopPage } from './do-workshop.page';
+import { ModalUserPage } from './modal-user.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DoWorkshopPageRoutingModule
+    ModalUserPageRoutingModule
   ],
-  declarations: [DoWorkshopPage]
+  declarations: [ModalUserPage]
 })
-export class DoWorkshopPageModule {}
+export class ModalUserPageModule {}

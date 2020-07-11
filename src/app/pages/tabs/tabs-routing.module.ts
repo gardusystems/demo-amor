@@ -26,6 +26,34 @@ const routes: Routes = [
           import("./workshops/workshops.module").then(
             (m) => m.WorkshopsPageModule
           ),
+          
+      },
+      {
+        path: "workshop/:id",
+          children: [
+            {
+              path: "",
+              loadChildren: () =>
+          import("../tabs/list-workshop/list-workshop.module").then(
+            (m) => m.ListWorkshopPageModule
+          ),
+            },
+            {
+              path: "lesson/:id",
+              loadChildren: () =>
+                import("../tabs/do-workshop/do-workshop.module").then(
+                  (m) => m.DoWorkshopPageModule
+                ),
+            },
+          ]
+      },
+      {
+        path: 'contact',
+        loadChildren: () => import('../tabs/contact/contact.module').then( m => m.ContactPageModule)
+      },
+      {
+        path: 'about-us',
+        loadChildren: () => import('./about-us/about-us.module').then( m => m.AboutUsPageModule)
       },
       {
         path: "",

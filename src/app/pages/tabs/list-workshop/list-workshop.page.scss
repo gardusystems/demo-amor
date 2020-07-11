@@ -1,0 +1,23 @@
+  ion-list {
+    background-color: transparent;
+  
+    ion-item {
+      --background: transparent;
+      --border-style: none;
+  
+  
+    }
+  }
+
+  ion-card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  ion-card-subtitle {
+    color: #DDEBE4;
+    font-weight: 400;
+  }
+  
+  

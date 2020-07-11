@@ -11,7 +11,7 @@ export class MenuPage implements OnInit {
   constructor(private menu:MenuController, private navCtrl:NavController) { }
 
   ngOnInit() {
-    
+    //this.menu.open();
   }
 
   closeMenu(){
@@ -21,6 +21,11 @@ export class MenuPage implements OnInit {
   navigate(url){
     this.menu.close();  
     this.navCtrl.navigateRoot(`/menu/${url}`);
+  }
+
+  navigateForward(url){
+    this.menu.close();  
+    this.navCtrl.navigateForward(`menu/${url}`);
   }
 
 }

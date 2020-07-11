@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser"
-import { Platform } from '@ionic/angular';
+import { Platform, ModalController } from '@ionic/angular';
 /*
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/File/ngx';
@@ -8,6 +8,7 @@ import { FileTransfer } from '@ionic-native/file-transfer/ngx';*/
 import { DocumentViewer, DocumentViewerOptions } 
 from '@ionic-native/document-viewer/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { ModalPdfPage } from '../modal-pdf/modal-pdf.page';
 
 @Component({
   selector: 'app-do-workshop',
@@ -17,13 +18,31 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 export class DoWorkshopPage implements OnInit {
   vidUrl:SafeResourceUrl;
   pdfUrl: SafeResourceUrl;
-  param = "http://www.filosofia.org/rev/reu/1875/pdf/n069p621.pdf";
+
+  pdfData = {
+    title: "PDF de ejemplo",
+    url: 'http://www.africau.edu/images/default/sample.pdf'
+  }
+
+  comments = [
+    {
+      avatar: this.domSanitizer.bypassSecurityTrustResourceUrl("https://m.media-amazon.com/images/M/MV5BNTczMzk1MjU1MV5BMl5BanBnXkFtZTcwNDk2MzAyMg@@._V1_.jpg"),
+      name: "Will Smith",
+      content: "Wow, amazing"
+    },
+    {
+      avatar: this.domSanitizer.bypassSecurityTrustResourceUrl("https://m.media-amazon.com/images/M/MV5BMTQ3ODE2NTMxMV5BMl5BanBnXkFtZTgwOTIzOTQzMjE@._V1_UY317_CR21,0,214,317_AL_.jpg"),
+      name: "Emma Watson",
+      content: "OMG"
+    }
+  ]
 
   constructor(
     private domSanitizer:DomSanitizer, 
     private platform:Platform, 
     private documentViewer:DocumentViewer,
     private fileOpener: FileOpener,
+    private modalController: ModalController
     /*private file:File, 
     private fileTransfer:FileTransfer, 
     private fileOpener:FileOpener,
@@ -32,9 +51,20 @@ export class DoWorkshopPage implements OnInit {
   ngOnInit() {
     this.vidUrl = this.domSanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/J0G5mQyHGlI");
 
-    this.pdfUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.param);
+    
   }
-  
+ 
+
+  async showPdf(){
+    const modal = await this.modalController.create({
+      component: ModalPdfPage,
+      componentProps: {
+        'title': this.pdfData.title,
+        'url': this.pdfData.url
+      }
+    });
+    return await modal.present();
+  }
   
   openLocalPdf(){
     const options: DocumentViewerOptions = { 

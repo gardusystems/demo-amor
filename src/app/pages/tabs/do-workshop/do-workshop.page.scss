@@ -1,0 +1,38 @@
+ion-list {
+  background-color: transparent;
+
+  ion-item {
+    --background: transparent;
+    --border-style: none;
+
+    --padding-end: 0px;
+    --inner-padding-end: 0px;
+  }
+}
+ion-item {
+  --background: transparent;
+  --border-style: none;
+
+  --padding-end: 0px;
+  --inner-padding-end: 0px;
+
+  &.item-has-focus ion-label {
+    color: var(--ion-color-light);
+  }
+}
+
+ion-input {
+  color: var(--ion-color-light);
+  border-bottom: 1px solid var(--ion-color-light);
+  font-weight: 300;
+}
+
+
+ion-card-subtitle {
+  color: #ddebe4;
+  font-weight: 400;
+}
+
+.comment-name {
+  font-weight: bold;
+}
