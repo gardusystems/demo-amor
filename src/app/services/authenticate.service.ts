@@ -37,6 +37,10 @@ export class AuthenticateService {
       return false;
     }
   }
+
+  logOut() {
+    this.storage.remove("isUserLoggedIn");
+  }
 }
 
 

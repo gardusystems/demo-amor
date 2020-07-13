@@ -1,6 +1,6 @@
 
 ion-content {
-    --background: #F2F2F2;
+    --background: var(--theme-background);
 }
   
 ion-title {

@@ -33,17 +33,12 @@ const routes: Routes = [
           children: [
             {
               path: "",
-              loadChildren: () =>
-          import("../tabs/list-workshop/list-workshop.module").then(
-            (m) => m.ListWorkshopPageModule
-          ),
+              loadChildren: () => import("../tabs/list-workshop/list-workshop.module").then((m) => m.ListWorkshopPageModule),
             },
             {
-              path: "lesson/:id",
+              path: "lesson/:lesson",
               loadChildren: () =>
-                import("../tabs/do-workshop/do-workshop.module").then(
-                  (m) => m.DoWorkshopPageModule
-                ),
+                import("../tabs/do-workshop/do-workshop.module").then((m) => m.DoWorkshopPageModule),
             },
           ]
       },

@@ -1,10 +1,7 @@
 .talleres-header {
-  background:  #F2F2F2;
-  box-shadow: none;
-}
-
-ion-card {
-  position: relative;
+  
+  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
 
 .mask {
@@ -30,8 +27,16 @@ ion-list {
   }
 }
 
-ion-card-subtitle {
+ion-card {
+  border-radius: 0;
   
-  font-weight: 400;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(0, 0, 0, .08);
+
+  ion-card-subtitle {
+  
+    font-weight: 400;
+  }
 }
+
 

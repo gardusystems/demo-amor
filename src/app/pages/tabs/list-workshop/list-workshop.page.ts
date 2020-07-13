@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+
+import { switchMap } from 'rxjs/operators';
+import { workshops } from "../../../services/data";
+
 
 @Component({
   selector: 'app-list-workshop',
@@ -8,28 +13,32 @@ import { ActionSheetController, NavController } from '@ionic/angular';
 })
 export class ListWorkshopPage implements OnInit {
 
+  constructor(public actionSheetController: ActionSheetController, private navCtrl:NavController,private route: ActivatedRoute) { }
+
   workshop = {
-    id: 1,
-    title: "El camino a la prosperidad",
-    lessons : [{
-      id: 1,
-      nombre:"leccion 1",
-      descripcion: "descripcion leccion 1"
-    }, {
-      id: 2,
-      nombre:"leccion 2",
-      descripcion: `descripcion leccion 2`
-    }]
-  }
+    id: 0,
+    title: "Magia de amor",
+    description: ""
+  };
   
-  constructor(public actionSheetController: ActionSheetController, private navCtrl:NavController) { }
-
+  workshopId = this.route.snapshot.parent.paramMap.get("id");
   ngOnInit() {
+
+    let id = Number(this.route.snapshot.paramMap.get("id"));
+
+    console.log(workshops);
+    
+    workshops.forEach(workshop => {
+      if(workshop.id == id) {
+        this.workshop = workshop;
+      }
+    });
+
   }
 
   
-  navigate(workshopId, id){
-    this.navCtrl.navigateForward(`menu/tabs/workshop/${workshopId}/lesson/${id}`);
+  navigate(id){
+    this.navCtrl.navigateForward(`menu/tabs/workshop/${this.workshopId}/lesson/${id}`);
   }
 }
 

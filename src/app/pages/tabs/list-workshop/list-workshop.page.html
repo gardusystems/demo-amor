@@ -8,26 +8,29 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card>
+  <ion-card class="talleres-header ion-no-margin">
     <ion-card-header>
-      <ion-card-title >{{ workshop.title }}</ion-card-title>
+      <ion-card-title class="header" >{{ workshop.title }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      Keep close to Nature's heart... and break clear away, once in awhile, and
-      climb a mountain or spend a week in the woods. Wash your spirit clean.
+      {{workshop.description}}
     </ion-card-content>
   </ion-card>
   <ion-list class="ion-no-padding">
-    <ion-card *ngFor="let l of workshop.lessons" class="ion-activatable ripple-parent" (click)="navigate(workshop.id, l.id)">
-      <ion-card-content>
-
-        <ion-card-title>{{ l.nombre }}</ion-card-title>  
+    <ion-card *ngFor="let lesson of workshop.lessons" 
+    class="ion-activatable ripple-parent ion-no-margin" 
+    [ngClass]="{'unread': !lesson.readed}"
+    (click)="navigate(lesson.id)">
+      <ion-card-content class="ion-no-padding ion-margin-start" >
+        <ion-card-title class="lesson-title">{{ lesson.name }}</ion-card-title>  
         <ion-item class="ion-no-padding">
-          <ion-icon name="play" color="secondary"></ion-icon>
+          <ion-icon name="play" ></ion-icon>
         </ion-item>
 
       </ion-card-content>
       <ion-ripple-effect></ion-ripple-effect>
+      
+
     </ion-card>
   </ion-list>
 </ion-content>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser"
-import { Platform, ModalController } from '@ionic/angular';
+import { Platform, ModalController, LoadingController } from '@ionic/angular';
 /*
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/File/ngx';
@@ -9,6 +9,10 @@ import { DocumentViewer, DocumentViewerOptions }
 from '@ionic-native/document-viewer/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { ModalPdfPage } from '../modal-pdf/modal-pdf.page';
+import { ActivatedRoute } from '@angular/router';
+
+
+import { workshops } from "../../../services/data";
 
 @Component({
   selector: 'app-do-workshop',
@@ -18,6 +22,8 @@ import { ModalPdfPage } from '../modal-pdf/modal-pdf.page';
 export class DoWorkshopPage implements OnInit {
   vidUrl:SafeResourceUrl;
   pdfUrl: SafeResourceUrl;
+
+  url = "https://www.youtube.com/embed/J0G5mQyHGlI";
 
   pdfData = {
     title: "PDF de ejemplo",
@@ -37,23 +43,55 @@ export class DoWorkshopPage implements OnInit {
     }
   ]
 
+  lesson = null;
+
   constructor(
     private domSanitizer:DomSanitizer, 
     private platform:Platform, 
     private documentViewer:DocumentViewer,
     private fileOpener: FileOpener,
-    private modalController: ModalController
-    /*private file:File, 
-    private fileTransfer:FileTransfer, 
-    private fileOpener:FileOpener,
-    private documentViewer:DocumentViewer*/) { }
+    private modalController: ModalController,
+    public loadingController: LoadingController,
+    private route: ActivatedRoute) { }
+
+    loading: HTMLIonLoadingElement = null;
+
+  workshopId = Number(this.route.snapshot.parent.paramMap.get("id"));
+  lessonId = Number(this.route.snapshot.paramMap.get("lesson"));
 
   ngOnInit() {
+    console.log(this.workshopId);
+    workshops.forEach((workshop, i) => {
+      if(workshop.id == this.workshopId){
+        workshop.lessons.forEach((lesson, j) => {
+          if(lesson.id == this.lessonId){
+            this.lesson = lesson;
+            workshops[i].lessons[j].readed = true;
+          }
+        });
+      }
+    })
+
+
     this.vidUrl = this.domSanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/J0G5mQyHGlI");
 
+    this.presentLoading();
+
+    document.getElementById('video').onload = (loader) => {
+      this.loading.dismiss();
+    };
     
   }
- 
+  
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      cssClass: 'loader',
+      message: 'Cargando...',
+      backdropDismiss: false
+    });
+    
+    await this.loading.present();
+  }
 
   async showPdf(){
     const modal = await this.modalController.create({
@@ -72,22 +110,5 @@ export class DoWorkshopPage implements OnInit {
     }
     this.documentViewer.viewDocument('assets/myFile.pdf', 'application/pdf', options)
   }
-  /*
-  dowloadAndOpenPdf(){
-    let path = null;
-
-    if(this.platform.is('ios')){
-      path = this.file.documentsDirectory;
-    }else{
-      path = this.file.dataDirectory;
-    }
-    const transfer = this.fileTransfer.create();
-    transfer.download('http://www.filosofia.org/rev/reu/1875/pdf/n069p621.pdf', path + 'myfile.pdf').then(entry =>{
-      let url = entry.toURL();
-      this.documentViewer.viewDocument('assets/myFile.pdf', 'application/pdf', {});
-    });
-
-  }
-*/
 }
 

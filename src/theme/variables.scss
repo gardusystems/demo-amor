@@ -4,6 +4,11 @@
 /** Ionic CSS Variables **/
 
 :root {
+  /** custom **/
+
+  --theme-background: linear-gradient(90deg,  rgba(2, 136, 214, .1) 0%, rgba(246,123,40,.1) 100%);
+  /*--theme-background: #fff;*/
+
    /** primary **/
    --ion-color-primary: #FFC000;
    --ion-color-primary-rgb: 255, 192, 0;

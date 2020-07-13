@@ -8,6 +8,7 @@ import { DoWorkshopPageRoutingModule } from './do-workshop-routing.module';
 
 import { DoWorkshopPage } from './do-workshop.page';
 import { ModalPdfPage } from '../modal-pdf/modal-pdf.page';
+import { SafePipe } from 'src/app/pipes/safe.pipe';
 
 @NgModule({
   imports: [
