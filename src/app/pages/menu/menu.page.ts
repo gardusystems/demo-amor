@@ -3,6 +3,7 @@ import { MenuController, NavController } from '@ionic/angular';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { AuthService } from 'src/app/services/auth.service';
 
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.page.html',
@@ -13,13 +14,20 @@ export class MenuPage implements OnInit {
   constructor(private menu:MenuController, 
     private navCtrl:NavController,
     private auth: AuthenticateService,
-    private authS: AuthService) { }
+    private authS: AuthService
+    ) { }
 
   isLoggedIn = false;
   ngOnInit() {
 
-    this.auth.isLoggedIn().then( isLoggedIn => this.isLoggedIn = isLoggedIn);
+    /** promesas **/
+    //this.auth.isLoggedIn().then( isLoggedIn => this.isLoggedIn = isLoggedIn);
 
+    this.authS.getIsLoggedIn().subscribe((respone) => {
+      this.isLoggedIn = respone;
+    });
+
+    //this.authS.getIsLoggedIn().subscribe(response => this.isLoggedIn = response);
     //this.menu.open();
   }
 
@@ -39,9 +47,9 @@ export class MenuPage implements OnInit {
 
   logOut(){
     //this.auth.logOut();
-
     this.authS.logOut();    
     this.menu.close();
-    this.navCtrl.navigateForward(`menu/tabs/home`);
+    //window.location.reload();
+    this.navCtrl.navigateRoot(`menu/tabs/home`);
   }
 }
