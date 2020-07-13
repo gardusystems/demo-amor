@@ -10,7 +10,7 @@ export const workshops = [
         name: "Una fabulosa lección",
         description:
           "Una fabulosa lección que te impulsará en el camino a la gloria",
-        readed: true,
+        readed: false,
         video: "https://www.youtube.com/watch?v=EsE6yADz1Zs",
         pdfs: [
           {

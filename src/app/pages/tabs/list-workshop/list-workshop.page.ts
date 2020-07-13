@@ -20,25 +20,23 @@ export class ListWorkshopPage implements OnInit {
     title: "Magia de amor",
     description: ""
   };
-  
-  workshopId = this.route.snapshot.parent.paramMap.get("id");
+
   ngOnInit() {
 
     let id = Number(this.route.snapshot.paramMap.get("id"));
 
-    console.log(workshops);
+    let workshop = workshops.find(workshop => workshop.id == id);
     
-    workshops.forEach(workshop => {
-      if(workshop.id == id) {
-        this.workshop = workshop;
-      }
-    });
-
+    if(workshop != undefined){
+      this.workshop = workshop;
+    }else {
+      this.navCtrl.navigateRoot('menu/tabs/home');
+    }
   }
 
   
   navigate(id){
-    this.navCtrl.navigateForward(`menu/tabs/workshop/${this.workshopId}/lesson/${id}`);
+    this.navCtrl.navigateForward(`menu/tabs/workshop/${this.workshop.id}/lesson/${id}`);
   }
 }
 

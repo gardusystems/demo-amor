@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser"
-import { Platform, ModalController, LoadingController } from '@ionic/angular';
+import { Platform, ModalController, LoadingController, NavController } from '@ionic/angular';
 /*
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/File/ngx';
@@ -47,9 +47,8 @@ export class DoWorkshopPage implements OnInit {
 
   constructor(
     private domSanitizer:DomSanitizer, 
-    private platform:Platform, 
     private documentViewer:DocumentViewer,
-    private fileOpener: FileOpener,
+    private navCtrl:NavController,
     private modalController: ModalController,
     public loadingController: LoadingController,
     private route: ActivatedRoute) { }
@@ -60,27 +59,23 @@ export class DoWorkshopPage implements OnInit {
   lessonId = Number(this.route.snapshot.paramMap.get("lesson"));
 
   ngOnInit() {
-    console.log(this.workshopId);
-    workshops.forEach((workshop, i) => {
-      if(workshop.id == this.workshopId){
-        workshop.lessons.forEach((lesson, j) => {
-          if(lesson.id == this.lessonId){
-            this.lesson = lesson;
-            workshops[i].lessons[j].readed = true;
-          }
-        });
-      }
-    })
-
+    this.loadLesson();
 
     this.vidUrl = this.domSanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/J0G5mQyHGlI");
+  }
 
-    this.presentLoading();
-
-    document.getElementById('video').onload = (loader) => {
-      this.loading.dismiss();
-    };
+  loadLesson(){
+    let workshop = workshops.find(w => w.id == this.workshopId);
+    let lesson = workshop.lessons.find(l => l.id == this.lessonId);
     
+    if(lesson != undefined){
+      this.lesson = lesson;
+      lesson.readed = true;
+      this.presentLoading();
+    }
+    else {
+      this.navCtrl.navigateRoot(`menu/tabs/workshop/${workshop.id}`);
+    }
   }
   
   async presentLoading() {
@@ -90,6 +85,9 @@ export class DoWorkshopPage implements OnInit {
       backdropDismiss: false
     });
     
+    document.getElementById('video').onload = (loader) => {
+      this.loading.dismiss();
+    };
     await this.loading.present();
   }
 
