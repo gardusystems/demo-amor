@@ -12,7 +12,12 @@ import { IonicStorageModule } from "@ionic/storage";
 import { DocumentViewer } from "@ionic-native/document-viewer/ngx";
 import { FileOpener } from "@ionic-native/file-opener/ngx";
 import { SafePipe } from "./pipes/safe.pipe";
+
 import { AuthService } from './services/auth.service';
+
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+
+import { File } from '@ionic-native/File/ngx';
 
 /*
 import { File } from '@ionic-native/File/ngx';
@@ -34,11 +39,9 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';*/
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DocumentViewer,
-    FileOpener
-    /*File,
+    FileOpener,
+    File,
     FileTransfer,
-    DocumentViewer,
-    */
   ],
   bootstrap: [AppComponent],
 })
