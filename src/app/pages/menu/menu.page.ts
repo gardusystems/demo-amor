@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController, NavController } from '@ionic/angular';
-import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 
@@ -13,7 +12,6 @@ export class MenuPage implements OnInit {
 
   constructor(private menu:MenuController, 
     private navCtrl:NavController,
-    private auth: AuthenticateService,
     private authS: AuthService
     ) { }
 

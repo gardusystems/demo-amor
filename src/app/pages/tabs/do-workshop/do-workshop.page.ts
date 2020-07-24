@@ -4,10 +4,10 @@ import { Platform, ModalController, LoadingController, NavController } from '@io
 /*
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/File/ngx';
-import { FileTransfer } from '@ionic-native/file-transfer/ngx';*/
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { DocumentViewer, DocumentViewerOptions } 
 from '@ionic-native/document-viewer/ngx';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';*/
 import { ModalPdfPage } from '../modal-pdf/modal-pdf.page';
 import { ActivatedRoute } from '@angular/router';
 
@@ -33,7 +33,7 @@ export class DoWorkshopPage implements OnInit {
 
   constructor(
     private domSanitizer:DomSanitizer, 
-    private documentViewer:DocumentViewer,
+    //private documentViewer:DocumentViewer,
     private navCtrl:NavController,
     private modalController: ModalController,
     public loadingController: LoadingController,
@@ -99,12 +99,12 @@ export class DoWorkshopPage implements OnInit {
     });
     return await modal.present();
   }
-  
+ /* 
   openLocalPdf(){
     const options: DocumentViewerOptions = { 
       title: "My PDF TITLE"
     }
     this.documentViewer.viewDocument('assets/myFile.pdf', 'application/pdf', options)
-  }
+  }*/
 }
 
