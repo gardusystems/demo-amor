@@ -7,45 +7,63 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding-vertical">
+<ion-content >
 
-  <ion-label class="ion-margin-start" color="secondary">Datos personales</ion-label>
   <ion-card>
-    <ion-card-content>
-      <ion-item>
-        <ion-label floating>Nombre</ion-label>
-        <ion-input [(ngModel)]="user.full_name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Correo</ion-label>
-        <ion-input [(ngModel)]="user.email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Contraseña</ion-label>
-        <ion-input [(ngModel)]="user.password"></ion-input>
-      </ion-item>
-
-      <ion-button color="primary" expand="block" (click)="onSave()"
-          >Guardar
-        </ion-button>
+    <ion-card-header >
+      <ion-card-title>Editar perfil</ion-card-title>
+      <ion-button fill="clear" color="secondary" (click)="saveUser()">
+        <ion-icon slot="icon-only" name="checkmark-sharp" ></ion-icon>
+      </ion-button>
+    </ion-card-header>
+    <ion-card-content class="ion-margin-bottom">
+      <div class="avatar-container">
+        <ion-avatar (click)="avatarInput.click()">
+          <!--<img [src]="user.avatar" />-->
+          <div class="img" style="background-image: url({{user.avatar}});"></div>
+          <ion-badge ><ion-icon name="camera"></ion-icon></ion-badge>
+        </ion-avatar>
+        <input id="avatarInput" type="file" accept="image/*" #avatarInput style="display: none;" (change)="uploadFile($event)"/>
+        <ion-label>Cambiar avatar</ion-label>
+      </div> 
+      <form [formGroup]="userForm">
+        <div class="input-container">
+          <ion-label  position="floating">Tu nombre <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input formControlName="full_name" type="text" placeholder="Ingresa tu nombre"></ion-input>
+        </div>
+        <div class="input-container">
+          <ion-label  position="floating">Email</ion-label>
+          <ion-input formControlName="email" type="text" readonly placeholder="Email"></ion-input>
+        </div>
+      </form>
+      
     </ion-card-content>
   </ion-card>
 
-  <ion-label class="ion-margin-start" color="secondary">Cambiar contraseña</ion-label>
-  <ion-card>
-    <ion-card-content>
-      <ion-item>
-        <ion-label floating>Contraseña actual</ion-label>
-        <ion-input [(ngModel)]="user.full_name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Nueva contraseña</ion-label>
-        <ion-input [(ngModel)]="user.email" ></ion-input>
-      </ion-item>
+  <ion-card class="ion-margin-top">
+    <ion-card-header>
+      <ion-card-title >Cambiar contraseña</ion-card-title>
+      <ion-button fill="clear" color="secondary">
+        <ion-icon slot="icon-only" name="checkmark-sharp" ></ion-icon>
+      </ion-button>
+    </ion-card-header>
+    <ion-card-content class="ion-margin-bottom">
+      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+        <div class="input-container">
+          <ion-label  position="floating">Contraseña actual</ion-label>
+          <ion-input formControlName="current_password"  type="password" placeholder="Contraseña actual"></ion-input>
+        </div>
+      
+        <div class="input-container">
+          <ion-label  position="floating">Nueva contraseña</ion-label>
+          <ion-input formControlName="new_password" type="password" placeholder="Nueva contraseña"></ion-input>
+        </div>
 
-      <ion-button color="primary" expand="block" (click)="onSave()"
-          >Guardar
-        </ion-button>
+        <div class="input-container">
+          <ion-label  position="floating">Confirmar contraseña</ion-label>
+          <ion-input formControlName="confirm_password" type="password" placeholder="Confirmar contraseña"></ion-input>
+        </div>
+      </form>
     </ion-card-content>
   </ion-card>
 </ion-content>

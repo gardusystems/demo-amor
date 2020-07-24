@@ -51,7 +51,7 @@ const routes: Routes = [
         loadChildren: () => import('./about-us/about-us.module').then( m => m.AboutUsPageModule)
       },
       {
-        path: 'configuser',
+        path: 'configuration',
         loadChildren: () => import('./configuser/configuser.module').then( m => m.ConfiguserPageModule)
       },
       {
