@@ -10,7 +10,7 @@ import { IonicStorageModule } from "@ionic/storage";
 
 import { HttpClientModule } from '@angular/common/http';
 import { SafePipe } from "./pipes/safe.pipe";
-import { AuthService } from './services/auth.service';
+import { PreviewAnyFile } from '@ionic-native/preview-any-file/ngx';
 
 
 @NgModule({
@@ -26,7 +26,8 @@ import { AuthService } from './services/auth.service';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    PreviewAnyFile
   ],
   bootstrap: [AppComponent],
 })

@@ -11,6 +11,8 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';*/
 import { ModalPdfPage } from '../modal-pdf/modal-pdf.page';
 import { ActivatedRoute } from '@angular/router';
 
+import { PreviewAnyFile } from '@ionic-native/preview-any-file/ngx';
+
 
 import { workshops } from "../../../services/data";
 
@@ -37,7 +39,8 @@ export class DoWorkshopPage implements OnInit {
     private navCtrl:NavController,
     private modalController: ModalController,
     public loadingController: LoadingController,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private previewAnyFile: PreviewAnyFile) { }
 
     loading: HTMLIonLoadingElement = null;
 
@@ -46,14 +49,16 @@ export class DoWorkshopPage implements OnInit {
 
     lesson = {};
   ngOnInit() {
-
-
     this.vidUrl = this.domSanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/J0G5mQyHGlI");
   }
 
   ionViewWillEnter() {
 
     this.loadLesson();
+  }
+
+  openPDF(){
+    this.previewAnyFile.preview(this.pdfData.url).then(_ => {},(err) => alert(JSON.stringify(err)));
   }
 
   loadLesson(){

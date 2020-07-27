@@ -3,6 +3,7 @@ import { Storage } from "@ionic/storage";
 import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { PopoverController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-configuser',
   templateUrl: './configuser.page.html',
@@ -32,18 +33,21 @@ export class ConfiguserPage implements OnInit {
   });
 
 
-  constructor(private storage: Storage) {   }
+  constructor(private storage: Storage, private authS: AuthService) {   }
 
   ngOnInit() {
-    this.storage.get("userData").then(res =>{
-      this.user = res;
+    this.authS.getUserData().subscribe(user => {
+      this.user = user;
+
       this.user.avatar = "https://m.media-amazon.com/images/M/MV5BMjEzMjA0ODk1OF5BMl5BanBnXkFtZTcwMTA4ODM3OQ@@._V1_UY317_CR6,0,214,317_AL_.jpg";
 
       this.userForm.patchValue({
         full_name: this.user.full_name,
         email: this.user.email
       });
+
     });
+
   }
   
 

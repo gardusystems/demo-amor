@@ -49,8 +49,7 @@ export class AuthService {
     this.isLoggedIn$.next(false);
   }
 
-  getUserData(){
-
+  getUserData(): Observable<any>{
     this.storage.get("userData").then(res => {
       this.userData$.next(res);
     });
