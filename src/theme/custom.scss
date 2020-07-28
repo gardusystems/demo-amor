@@ -25,7 +25,7 @@ ion-title {
   ion-card-title {
     font-size: 18px;
     font-weight: 500;
-    color: var(--ion-color-secondary);
+    color: var(--ion-color-secondary)!important;
   }
 }
 ion-input.input-transparent {
@@ -39,7 +39,6 @@ ion-input.input-transparent {
   background: rgba(256, 256, 256, .1)!important;
   backdrop-filter: blur(2px);  
 }
-
 
 ion-input {
   color: var(--ion-color-light);
@@ -63,4 +62,10 @@ input:read-only{
 .input-container {
   padding-top: 16px;
 }
+
+
+
+
+
+/**/
 

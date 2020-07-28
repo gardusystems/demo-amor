@@ -1,12 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { AlertController, NavController, ModalController } from "@ionic/angular";
 
-import { workshops } from "../../../services/data";
-
 import { AuthService } from "src/app/services/auth.service";
 import { WorkshopService } from "src/app/services/workshop.service";
 
-import { LoginPage } from '../../login/login.page';
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
@@ -21,21 +18,26 @@ export class HomePage implements OnInit {
     private workShopService: WorkshopService
   ) {}
 
-  workshops = workshops;
+  workshops:any = [];
 
   isLogged = false;
-    user = {};
+  user = {};
 
   ngOnInit(): void {
 
     /** With observable - AuthService **/
-    this.auths.getIsLoggedIn().subscribe(isLogged => this.isLogged = isLogged);
+    //this.auths.getIsLoggedIn().subscribe(isLogged => this.isLogged = isLogged);
+    this.auths.getUserData().subscribe(user => {
+      this.user = user;
+      this.isLogged = user.isLoggedIn;
+      console.log(user)
+    });
 
 
-    this.auths.getUserData().subscribe(user => this.user = user);
+    this.workShopService.getWotkshops(1, 10).subscribe((response: any) => {
+      this.workshops = response.workshops;
 
-
-    this.workShopService.getWotkshops(1, 5).subscribe(data => {});
+    });
      
   }
 

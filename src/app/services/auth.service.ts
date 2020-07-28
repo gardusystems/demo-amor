@@ -46,7 +46,8 @@ export class AuthService {
 
   logOut() {
     this.storage.set("userData", this.defaulUser);
-    this.isLoggedIn$.next(false);
+    //this.isLoggedIn$.next(false);
+    this.userData$.next(this.defaulUser);
   }
 
   getUserData(): Observable<any>{

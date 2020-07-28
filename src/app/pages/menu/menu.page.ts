@@ -16,17 +16,16 @@ export class MenuPage implements OnInit {
     ) { }
 
   isLoggedIn = false;
+  user = {};
+
   ngOnInit() {
-
-    /** promesas **/
-    //this.auth.isLoggedIn().then( isLoggedIn => this.isLoggedIn = isLoggedIn);
-
-    this.authS.getIsLoggedIn().subscribe((respone) => {
-      this.isLoggedIn = respone;
-    });
-
-    //this.authS.getIsLoggedIn().subscribe(response => this.isLoggedIn = response);
+    this.authS.getIsLoggedIn().subscribe(isLoggedin => this.isLoggedIn = isLoggedin);
     //this.menu.open();
+/*
+    this.authS.getUserData().subscribe(user => {
+      this.user = user;
+      this.isLoggedIn = user.isLoggedIn;
+    });*/
   }
 
   closeMenu(){
