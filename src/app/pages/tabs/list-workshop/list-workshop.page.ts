@@ -6,6 +6,7 @@ import { switchMap, delay } from 'rxjs/operators';
 import { workshops } from "../../../services/data";
 import { WorkshopService } from 'src/app/services/workshop.service';
 import { Subscription } from 'rxjs';
+import { Workshop } from 'src/app/models/workshop.model';
 
 
 @Component({
@@ -25,35 +26,33 @@ export class ListWorkshopPage implements OnInit {
   id = this.route.snapshot.paramMap.get("id");
   workshopSubscription: Subscription;
   
-  ngOnInit() {
-    
-    /*let workshop = workshops.find(workshop => workshop.id == id);
-    
-    if(workshop != undefined){
-      this.workshop = workshop;
-    }else {
-      this.navCtrl.navigateRoot('menu/tabs/home');
-    }*/
-  }
+  ngOnInit() {  }
+  
   ionViewWillEnter() {
-
     this.workshopSubscription = this.workShopService.getWorkshop(this.id).pipe(delay(1000)).subscribe((response: any) => {
-      console.log(response);
-      this.workshop = response.workshop;
+      
+      if(response && response.status == 200){
+
+        this.workshop = response.workshop;
+      }
+      else {
+        this.navCtrl.navigateRoot('menu/tabs/home');
+      }
     });
   }
 
   ionViewWillLeave(){
     this.workshopSubscription.unsubscribe();
+    this.workshop = {};
   }
 
   navigate(id){
-    //this.navCtrl.navigateForward(`menu/tabs/workshop/${this.id}/lesson/${id}`);
-    this.navCtrl.navigateForward(`menu/tabs/workshop/1/lesson/1`);
+    this.navCtrl.navigateForward(`menu/tabs/workshop/${this.id}/lesson/${id}`);
+    //this.navCtrl.navigateForward(`menu/tabs/workshop/1/lesson/1`);
 
   }
   goBack(){
-    this.navCtrl.back()
+    this.navCtrl.navigateRoot('menu/tabs/home')
   }
 }
 

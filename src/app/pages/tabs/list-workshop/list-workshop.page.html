@@ -50,7 +50,7 @@
     <ion-card *ngFor="let lesson of workshop.lessons" 
       class="ion-activatable ripple-parent " 
       [ngClass]="{'unread': !lesson.readed}"
-      (click)="navigate(lesson.id)">
+      (click)="navigate(lesson.id_lesson)">
         <ion-card-content class="ion-no-padding ion-margin-start" >
           <ion-card-title  class="lesson-title">{{ lesson.title }}</ion-card-title>   
           <div class="icon-container">
