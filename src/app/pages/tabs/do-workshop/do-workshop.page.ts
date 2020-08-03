@@ -127,7 +127,9 @@ export class DoWorkshopPage implements OnInit {
   async showComments() {
     const modal = await this.modalController.create({
       component: ModalCommPage,
-      componentProps: {},
+      componentProps: {
+        'lessonId': Number(this.route.snapshot.paramMap.get("lesson"))
+      },
     });
     return await modal.present();
   }

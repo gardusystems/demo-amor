@@ -29,11 +29,13 @@ export class ListWorkshopPage implements OnInit {
   ngOnInit() {  }
   
   ionViewWillEnter() {
-    this.workshopSubscription = this.workShopService.getWorkshop(this.id).pipe(delay(1000)).subscribe((response: any) => {
+    this.workshopSubscription = this.workShopService.getWorkshop(this.id).pipe(delay(0)).subscribe((response: any) => {
       
       if(response && response.status == 200){
 
         this.workshop = response.workshop;
+
+        console.log(this.workshop)
       }
       else {
         this.navCtrl.navigateRoot('menu/tabs/home');
@@ -48,11 +50,11 @@ export class ListWorkshopPage implements OnInit {
 
   navigate(id){
     this.navCtrl.navigateForward(`menu/tabs/workshop/${this.id}/lesson/${id}`);
-    //this.navCtrl.navigateForward(`menu/tabs/workshop/1/lesson/1`);
 
   }
   goBack(){
     this.navCtrl.navigateRoot('menu/tabs/home')
+    //this.navCtrl.back()
   }
 }
 

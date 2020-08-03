@@ -1,11 +1,13 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="tertiary">
     <ion-title class="ion-no-padding" *ngIf="lesson.workshop_title">{{lesson.workshop_title || 'Magia de amor'}}</ion-title>
-    <ion-title class="ion-no-padding" *ngIf="!lesson.workshop_title">
-      <ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
+    <ion-title  class="ion-no-padding" *ngIf="!lesson.workshop_title">
+      <ion-skeleton-text animated style="width: 40%; margin: auto;"></ion-skeleton-text>
     </ion-title>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end" style="width: 48px;" >
     </ion-buttons>
   </ion-toolbar>
 
@@ -102,7 +104,9 @@
     </ion-item>
   </ion-list>
 
-  <ion-button *ngIf="lesson.total_comments && lesson.total_comments > 5"
+
+
+  <ion-button *ngIf="lesson.total_comments && lesson.total_comments > 3"
       class="ion-margin"
       (click)="showComments()"
       expand="full"
