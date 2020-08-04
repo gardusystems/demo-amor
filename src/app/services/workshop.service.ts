@@ -22,7 +22,7 @@ export class WorkshopService {
     return this.http.post(`${this.API_URL}list`, formData, {headers: new HttpHeaders()});
   }
 
-  getMyWotkshops(page, limit, token?){
+  getMyWorkshops(page, limit, token?){
     let formData = new FormData()
 
     formData.append('page', page.toString());

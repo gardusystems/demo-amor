@@ -70,7 +70,7 @@ export class WorkshopsPage implements OnInit {
   loadWorkshops(scroll?, refresh?) {
     this.loading = true;
     this.workshopsSubscription = this.workShopService
-      .getMyWotkshops(this.page, this.limit, this.userData.user.token)
+      .getMyWorkshops(this.page, this.limit, this.userData.user.token)
       .pipe(delay(0))
       .subscribe(
         (response) => {
