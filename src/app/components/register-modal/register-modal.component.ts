@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertService } from 'src/app/services/shared/alert.service';
 
+import { Storage } from '@ionic/storage';
+
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss'],
+  selector: 'app-register-modal',
+  templateUrl: './register-modal.component.html',
+  styleUrls: ['./register-modal.component.scss'],
 })
-export class RegisterPage{
+export class RegisterModalComponent implements OnInit {
+  @Output("handleAction") action: EventEmitter<any> = new EventEmitter();
+
   registerForm: FormGroup;
   validation_messages = {
     full_name: [
@@ -62,15 +65,26 @@ export class RegisterPage{
       
       passconfirm: new FormControl("", Validators.compose([
         Validators.required,
-        Validators.minLength(5)
+        Validators.minLength(5),
       ])
       ),
-    }, {validator: this.matchingPassword('password', 'passconfirm')}
+    }
     );
    }
 
+  ngOnInit(){
+
+  }
+
    goToLogin(){
-     this.navCtrl.navigateBack("/login");
+     this.action.emit(1);
+   }
+
+   onPassConfirmChange(value){
+    if(value !==this.registerForm.controls['password'].value){
+      console.log("diferentes")
+      this.registerForm.controls['passconfirm'].setErrors({'mismatchedPasswords': true});
+    }
    }
 
    matchingPassword(passwordKey: string, confirmPasswordKey: string){
@@ -78,7 +92,8 @@ export class RegisterPage{
       let password = group.controls[passwordKey];
       let confirmPassword = group.controls[confirmPasswordKey];
 
-      if (password.value !== confirmPassword.value) {
+      if (password.value === confirmPassword.value) {
+        
         return {
           mismatchedPasswords: true
         };
@@ -91,7 +106,8 @@ export class RegisterPage{
       let res:any = response; 
       if(res.status == 200){   
         this.alertService.basicAlert("Se han registrado tus datos, ahora usa tu correo y contraseña registrados para ingresar", ['Aceptar'], "¡Registro Exitoso!");
-        this.navCtrl.navigateRoot("/login");
+        this.goToLogin();
+        this.registerForm.reset();
       }
       else {
         console.log(res.message);

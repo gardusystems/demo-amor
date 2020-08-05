@@ -9,6 +9,7 @@ ion-content {
 
 }
 
+
 ion-item {
   --background: transparent;
   --border-style: none;
@@ -30,7 +31,7 @@ ion-item {
 
   margin: 50px auto auto;
 
-  color: var(--ion-color-tertiary);
+  color: var(--ion-color-secondary);
   text-shadow: 1px 1px 1px rgba(255,255,255,.5  ), -1px -1px 1px rgba(255,255,255,.5  );
 }
 

@@ -1,16 +1,3 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="primary" class="transparent-toolbar">
-    <ion-buttons class="ion-padding-start">
-      <ion-button (click)="goToLogin()">
-        <ion-icon
-          name="arrow-back-outline"
-          color="light"
-          slot="start"
-        ></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content [fullscreen]="true">
   <form
@@ -64,7 +51,7 @@
       <ion-label position="stacked" class="titleinput"
         >Confirmar Contraseña</ion-label
       >
-      <ion-input class="input-transparent" type="password" formControlName="passconfirm"></ion-input>
+      <ion-input class="input-transparent" type="password" formControlName="passconfirm" (input)="onPassConfirmChange($event.target.value)"></ion-input>
     </ion-item>
     <div class="validation-errors">
       <ion-container *ngFor="let validation of validation_messages.passconfirm">
@@ -94,5 +81,14 @@
       type="submit"
       >Registrarme
     </ion-button>
+
+    <ion-button
+        class="ion-margin-top"
+        color="light"
+        (click)="goToLogin()"
+        expand="full"
+        fill="clear"
+        >Iniciar sesión
+      </ion-button>
   </form>
 </ion-content>
