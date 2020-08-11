@@ -40,6 +40,7 @@ export class AuthService {
             })
             .subscribe((res: any) => {
               if (res && res.status == 200) {
+                console.log(res.data)
                 let user = {
                   isLoggedIn: true,
                   user: {
