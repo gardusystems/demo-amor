@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Storage } from "@ionic/storage";
 import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { PopoverController, ModalController } from '@ionic/angular';
+import { PopoverController, ModalController, IonImg } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 
 import { Chooser, ChooserResult } from '@ionic-native/chooser/ngx';
@@ -38,9 +38,9 @@ export class ConfiguserPage implements OnInit {
     private authS: AuthService,
     private chooser: Chooser,) {   }
 
+    @ViewChild(IonImg) avatar: IonImg;
   ngOnInit() {
     
-
     this.authS.userData.subscribe(user => {
       this.userData = user;
 
@@ -52,18 +52,28 @@ export class ConfiguserPage implements OnInit {
 
   }
   
-
   changePassword(){
     console.log(this.passwordForm.value);
   }
 
   saveUser() {
-    if(this.userForm.value.full_name !== this.userData.user.full_name || this.userForm.value.avatar !== ''){
-      let userData = {
-        id_user: this.userData.user.id_user,
-        ...this.userForm.value
+    if(this.userForm.value.full_name !== this.userData.user.full_name){
+      if(this.userForm.value.full_name != ''){
+        let userData = {
+          token: this.userData.user.token,
+          full_name: this.userForm.value.full_name
+        }
+  
+        this.authS.editSelf(this.userData.user.token, this.userForm.value.full_name).subscribe((res: any) => {
+          if(res.status == 200){
+            this.authS.loadUser();
+          }
+        })
       }
-      console.log(userData);
+      else {
+        console.log("El nombre es requerido")
+      }
+      
     }else {
       console.log("No hay cambios que guardar")
     }
@@ -85,7 +95,8 @@ export class ConfiguserPage implements OnInit {
       component: AvatarComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        file
+        file,
+        token: this.userData.user.token
       }
     });
 

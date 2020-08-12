@@ -1,110 +1,62 @@
-import { Component, OnInit } from '@angular/core';
-import { workshops } from "../../../services/data";
-import { ActionSheetController, NavController, ModalController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
-import { ModalWsPage } from '../modal-ws/modal-ws.page';
+import { Component, OnInit } from "@angular/core";
+import { ActionSheetController, ModalController } from "@ionic/angular";
+import { ActivatedRoute } from "@angular/router";
 import { WorkshopService } from 'src/app/services/workshop.service';
 import { AlertService } from 'src/app/services/shared/alert.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { LessonService } from 'src/app/services/lesson.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+import { ModalWsPage } from '../modal-ws/modal-ws.page';
+
 @Component({
-  selector: 'app-editlesson',
-  templateUrl: './editlesson.page.html',
-  styleUrls: ['./editlesson.page.scss'],
+  selector: "app-editlesson",
+  templateUrl: "./editlesson.page.html",
+  styleUrls: ["./editlesson.page.scss"],
 })
 export class EditlessonPage implements OnInit {
-  workshopForm: FormGroup;
-  validation_messages = {
-    title: [
-      {type:"required", message:"El Titulo es requerido"},
-      {type:"minlength", message:"El titulo debe contener al menos una palabra"}
-    ],
-    description: [
-      {type:"required", message:"La descripcion es requerida"},
-      {type:"minlength", message:"La descripcion debe contener al menos una palabra"}
-    ],
-  };
-
-  workshopData:any = {
-    workshop: {
-
-    }
-  };
   constructor(
-    public actionSheetController: ActionSheetController,
-    private navCtrl:NavController,
     private route: ActivatedRoute,
-    private modalController:ModalController,
-    private workshopS: WorkshopService, 
-    private lessonService: LessonService,
+    private workshopS: WorkshopService,
     private alertService: AlertService,
-    private formBuilder: FormBuilder
-  ) {
-    this.workshopForm = this.formBuilder.group({
-      title: new FormControl(
-        "", 
-        Validators.compose([
-        Validators.required,
-        Validators.minLength(3)
-      ])
-      ),
-      description: new FormControl(
-        "", 
-        Validators.compose([
-        Validators.required,
-        Validators.minLength(3)
-      ])
-      ),
+    private auths: AuthService,
+    private modalController:ModalController,
+  ) {}
+
+  workshopId = this.route.snapshot.paramMap.get("id");
+  workshop: any; //no borrar
+  segmentValue = "edit";
+  userSubscription: Subscription;
+  loading = true;
+  userData: any = {
+    isLoggedIn: false,
+  };
+
+  ionViewWillEnter() {
+    this.userSubscription = this.auths.userData.subscribe((userData) => {
+      this.userData = userData;
+      this.getWorkshop(this.workshopId);
     });
-   }
-  workshopId = this.route.snapshot.parent.paramMap.get("id");
-  
-  workshop: any = {}
-  lessonModal: any = {}
+    
+  }
 
+  ionViewWillLeave(){
+    this.userSubscription.unsubscribe();
+  }
 
-  ngOnInit() {
-    this.workshopS.getWorkshop(this.workshopId).subscribe((res:any) =>{
+  getWorkshop(id_workshop){
+    this.loading = true;
+    this.workshopS.getWorkshop(id_workshop).subscribe((res:any) =>{
       this.workshop = res.workshop;
-      this.workshopForm.patchValue({
-        title: this.workshop.title,
-        description: this.workshop.description
-      });
+      this.loading = false;
     })
   }
-
-  getWorkshop() {
-    this.workshopS.getWorkshop(this.workshopId).subscribe((response: any) => {
-      if(response && response.status == 200){
-        let workshop = response.workshop;
-        workshop.lessons.forEach((l, i) => {
-          if(i > 0) {
-            if(workshop.lessons[i-1].readed){
-              l.disabled = false;
-            }
-            else {
-              l.disabled = true;
-            }
-          }
-        });
-
-        this.workshop = workshop;
-      }
-      else {
-        this.navCtrl.navigateRoot('menu/tabs/home');
-      }
-    });
-  }
-
-  getLesson(lesson){
-    this.lessonService.getLessons(lesson.id_lesson).subscribe((response: any) => {
-      this.lessonModal = response.lesson;
-      this.editLS(this.lessonModal);
-      console.log(this.lessonModal.contents);
-    });
-  }
-
+  ngOnInit() {}
   
+  segmentChanged(ev: any) {
+    this.segmentValue = ev.detail.value;
+    console.log(this.segmentValue);
+    //this.navCtrl.navigateForward(`menu/admin/adminws/${workshop.id_workshop}`);
+    console.log("Segment changed", ev);
+  }
 
   async editLS(lessonModal){
     const modal = await this.modalController.create({
@@ -118,9 +70,25 @@ export class EditlessonPage implements OnInit {
       }
     });
     return await modal.present();
+  }
+  saveWorkshop(event){
+    if(!event.error){
+      this.loading = true;
+      let workshop = {
+        id_workshop: this.workshop.id_workshop,
+        title: event.title,
+        description: event.description
+      }
+      this.workshopS.editWorkshop(workshop, this.userData.user.token).subscribe((res: any) => {
+        if(res.status == 200){
+          this.getWorkshop(workshop.id_workshop);
+          this.alertService.presentToast("El taller ha sido actualizado correctamente.", 3000) 
+        } 
+      });
     }
-
-  navigate(id){
-    this.navCtrl.navigateForward(`menu/admin/adminws/${this.workshop.id}/lesson/${id}`);
+    else {
+      this.alertService.presentToast("No hay cambios que guardar.", 3000) 
+    }
+    
   }
 }

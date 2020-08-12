@@ -18,8 +18,8 @@
     <ion-card-content class="ion-margin-bottom">
       <div class="avatar-container">
         <ion-avatar (click)="choose()">
-          <!--<img [src]="user.avatar" />-->
-          <div class="img" style="background-image: url({{userData.user.avatar}});"></div>
+          <ion-img #avatar [src]="userData.user.avatar"></ion-img>
+          <!--div class="img" style="background-image: url({{userData.user.avatar}});"></div-->
           <ion-badge ><ion-icon name="camera"></ion-icon></ion-badge>
         </ion-avatar>
         <ion-label (click)="choose()">Cambiar avatar</ion-label>
