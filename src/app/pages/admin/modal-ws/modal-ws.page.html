@@ -1,68 +1,56 @@
 <ion-header>
-  <ion-toolbar style="padding-right : 0; padding-left: 52px;">
+  <ion-toolbar style="padding-right: 0; padding-left: 52px;">
     <ion-title>{{title}}</ion-title>
-      <ion-buttons slot="end">
-        <ion-button (click)="closeModal()">
-          <ion-icon slot="icon-only" name="close"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header >
-      <ion-card-title>Editar lección</ion-card-title>
-      <ion-button fill="clear" color="secondary" (click)="saveUser()">
-        Guardar
-      </ion-button>
-    </ion-card-header>
-    <ion-card-content class="ion-margin-bottom">
-      <form 
-      [formGroup]="lessonForm"
-      (ngSubmit)="lessonData(lessonForm.value)"
+
+  <!--SEGMENT CON EDITAR LECCION y CONTENIDOS-->
+  
+  <ng-container>
+    <app-lessons
+    *ngIf="lesson.id_lesson"
+    [lesson]="lesson"
+    [editing]="true"
+    (saveLesson)="saveLesson($event)"
+  ></app-lessons>
+  </ng-container>
+
+  <ng-container>
+    <!--CONTENTS SEGMENT-->
+    
+    <!--CONTENTS FORM EN MODO AGREGAR-->
+
+    <!--LISTA DE CONTENTS FORM EN MODO EDITAR-->
+  </ng-container>
+
+  <ion-card *ngFor="let content of lesson.contents">
+    <ion-card-content *ngIf="content.type == '1'">
+      <form
+        [formGroup]="contentForm"
+        (ngSubmit)="contentData(contentForm.value)"
       >
         <ion-item class="ion-no-padding">
           <ion-label position="stacked" class="titleinput">Titulo</ion-label>
-          <ion-input formControlName="title" type="text" placeholder="Ingresa un titulo"></ion-input>
-        </ion-item>
-        <ng-container *ngFor="let validation of validation_messages.title">
-          <div class="validation"
-            *ngIf="lessonForm.get('title').hasError(validation.type) && 
-                      (lessonForm.get('title').dirty ||
-                      lessonForm.get('title').touched)"
-          >
-            {{ validation.message}}
-          </div>
-        </ng-container>
-        <ion-item class="ion-no-padding">
-          <ion-label position="stacked" class="titleinput">Descripción</ion-label>
-          <ion-input formControlName="description" type="text" placeholder="Ingresa una descripción"></ion-input>
-        </ion-item>
-        <ng-container *ngFor="let validation of validation_messages.description">
-          <div class="validation"
-            *ngIf="lessonForm.get('description').hasError(validation.type) && 
-                      (lessonForm.get('description').dirty ||
-                      lessonForm.get('description').touched)"
-          >
-            {{ validation.message}}
-          </div>
-        </ng-container>
-      </form>
-    </ion-card-content>
-  </ion-card>
-  
-  <ion-card *ngFor="let content of contents">
-    <ion-card-content *ngIf="content.type == '1'">
-      <form [formGroup]="contentForm"
-      (ngSubmit)="contentData(contentForm.value)">
-        <ion-item class="ion-no-padding">
-          <ion-label position="stacked" class="titleinput">Titulo</ion-label>
-          <ion-input formControlName="title" type="text" placeholder="Ingresa un titulo"></ion-input>
+          <ion-input
+            formControlName="title"
+            type="text"
+            placeholder="Ingresa un titulo"
+          ></ion-input>
         </ion-item>
         <ion-item class="ion-no-padding">
           <ion-label position="stacked" class="titleinput">url</ion-label>
-          <ion-input formControlName="title" type="text" placeholder="Ingresa una url"></ion-input>
+          <ion-input
+            formControlName="title"
+            type="text"
+            placeholder="Ingresa una url"
+          ></ion-input>
         </ion-item>
       </form>
       <ion-list-header>

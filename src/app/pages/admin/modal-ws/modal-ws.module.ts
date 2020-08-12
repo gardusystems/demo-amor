@@ -8,6 +8,7 @@ import { ModalWsPageRoutingModule } from './modal-ws-routing.module';
 
 import { ModalWsPage } from './modal-ws.page';
 import { MainPipeModule } from 'src/app/modules/main-pipe/main-pipe.module';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { MainPipeModule } from 'src/app/modules/main-pipe/main-pipe.module';
     IonicModule,
     ModalWsPageRoutingModule,
     MainPipeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   declarations: [ModalWsPage]
 })

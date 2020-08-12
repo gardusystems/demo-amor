@@ -32,14 +32,23 @@
     </ion-segment>
 
     <div [ngSwitch]="segmentValue">
-      <app-edit
-        *ngSwitchCase="'edit'"
-        [workshop]="workshop"
-        [editing]="true"
-        (saveWorkshop)="saveWorkshop($event)"
-      ></app-edit>
+     
+
+      <ng-container 
+      *ngSwitchCase="'edit'">
+        <app-edit
+        *ngIf="workshop.id_workshop"   
+          [workshop]="workshop"
+          [editing]="true"
+          (saveWorkshop)="saveWorkshop($event)"
+        ></app-edit>
+      </ng-container>
       <ng-container *ngSwitchCase="'lessons'">
-        <app-lessons ></app-lessons>
+
+        <app-lessons         
+          [editing]="false"
+          (saveLesson)="saveLessonParent($event)"
+        ></app-lessons>
 
         <ion-list class="ion-no-padding content">
           <ion-virtual-scroll [items]="workshop.lessons" approxItemHeight="70px" >

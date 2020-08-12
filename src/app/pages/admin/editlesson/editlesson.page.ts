@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActionSheetController, ModalController } from "@ionic/angular";
 import { ActivatedRoute } from "@angular/router";
 import { WorkshopService } from 'src/app/services/workshop.service';
+import { LessonService } from 'src/app/services/lesson.service';
 import { AlertService } from 'src/app/services/shared/alert.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,13 +17,14 @@ export class EditlessonPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private workshopS: WorkshopService,
+    private lessonService: LessonService,
     private alertService: AlertService,
     private auths: AuthService,
     private modalController:ModalController,
   ) {}
 
   workshopId = this.route.snapshot.paramMap.get("id");
-  workshop: any; //no borrar
+  workshop: any = {}; //no borrar
   segmentValue = "edit";
   userSubscription: Subscription;
   loading = true;
@@ -46,6 +48,7 @@ export class EditlessonPage implements OnInit {
     this.loading = true;
     this.workshopS.getWorkshop(id_workshop).subscribe((res:any) =>{
       this.workshop = res.workshop;
+      console.log(this.workshop);
       this.loading = false;
     })
   }
@@ -62,11 +65,7 @@ export class EditlessonPage implements OnInit {
     const modal = await this.modalController.create({
       component: ModalWsPage,
       componentProps: {
-        'title': lessonModal.title,
-        'description': lessonModal.description,
-        'workshop_title': lessonModal.workshop_title,
-        'total_comments': lessonModal.total_comments,
-        'contents' : lessonModal.contents
+        'id_lesson': lessonModal.id_lesson,
       }
     });
     return await modal.present();
@@ -74,14 +73,16 @@ export class EditlessonPage implements OnInit {
   saveWorkshop(event){
     if(!event.error){
       this.loading = true;
+
       let workshop = {
-        id_workshop: this.workshop.id_workshop,
         title: event.title,
         description: event.description
       }
+
+
       this.workshopS.editWorkshop(workshop, this.userData.user.token).subscribe((res: any) => {
         if(res.status == 200){
-          this.getWorkshop(workshop.id_workshop);
+          this.getWorkshop(this.workshop.id_workshop);
           this.alertService.presentToast("El taller ha sido actualizado correctamente.", 3000) 
         } 
       });
@@ -90,5 +91,30 @@ export class EditlessonPage implements OnInit {
       this.alertService.presentToast("No hay cambios que guardar.", 3000) 
     }
     
+  }
+
+  saveLessonParent(event){
+    console.log(event)
+    if(!event.error){
+
+      let lesson = {
+        id_workshop: this.workshop.id_workshop,
+        title: event.title,
+        description: event.description
+      }
+
+      console.log(lesson);
+      
+      this.lessonService.addLesson(lesson, this.userData.user.token).subscribe((res: any) => {
+        if(res.status == 200){
+          
+          this.alertService.presentToast("La lección ha sido guardada correctamente.", 3000);
+          this.getWorkshop(this.workshop.id_workshop);
+        } 
+      });
+    }
+    else {
+      this.alertService.presentToast(event.message, 3000) 
+    }
   }
 }

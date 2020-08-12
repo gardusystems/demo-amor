@@ -1,14 +1,14 @@
 <ion-card>
   <ion-card-header >
-    <ion-card-title>Agregar Lección</ion-card-title>
-    <ion-button fill="clear" color="secondary" (click)="saveUser()">
-      Agregar
+    <ion-card-title>{{ editing ? 'Editar Lección' : 'Agregar Lección'}}</ion-card-title>
+    <ion-button fill="clear" color="secondary" (click)="save(lessonForm.value)">
+      Guardar
     </ion-button>
   </ion-card-header>
   <ion-card-content class="ion-margin-bottom">
     <form
     [formGroup]="lessonForm"
-    (ngSubmit)="lessonData(lessonForm.value)"
+    (ngSubmit)="save(lessonForm.value)"
     >
       <ion-item class="ion-no-padding">
         <ion-label position="stacked" class="titleinput">Titulo</ion-label>
