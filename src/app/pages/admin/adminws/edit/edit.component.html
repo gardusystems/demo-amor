@@ -2,7 +2,7 @@
 <ion-card>
   <ion-card-header >
     <ion-card-title >{{ editing ? 'Editar taller' : 'Crear taller'}}</ion-card-title>
-    <ion-button fill="clear" color="secondary" (click)="save(workshopForm.value)">
+    <ion-button fill="clear" color="secondary" [disabled]="!workshopForm.valid" (click)="save(workshopForm.value)">
       Guardar
     </ion-button>
   </ion-card-header>

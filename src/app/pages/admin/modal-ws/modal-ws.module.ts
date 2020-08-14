@@ -9,6 +9,7 @@ import { ModalWsPageRoutingModule } from './modal-ws-routing.module';
 import { ModalWsPage } from './modal-ws.page';
 import { MainPipeModule } from 'src/app/modules/main-pipe/main-pipe.module';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
+import { ContentFormComponent } from './content-form/content-form.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
     ReactiveFormsModule,
     SharedModule
   ],
-  declarations: [ModalWsPage]
+  declarations: [ModalWsPage,ContentFormComponent]
 })
 export class ModalWsPageModule {}

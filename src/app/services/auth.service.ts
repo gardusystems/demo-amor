@@ -131,6 +131,7 @@ export class AuthService {
   getUsers(token){
     let formToken = new FormData();
     formToken.append("token", token.toString());
+    
     return this.http.post(`${this.API_URL}list`, formToken, {headers: new HttpHeaders(),});
   }
 

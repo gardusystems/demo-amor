@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border" >
-  <ion-toolbar color="primary" class="transparent-toolbar">
+  <ion-toolbar color="tertiary" class="transparent-toolbar">
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
@@ -10,17 +10,27 @@
 </ion-header>
 
 <ion-content >
-  <ion-list class="ion-no-padding">
-    <ion-card *ngFor="let user of users" class="ion-activatable ripple-parent ion-no-margin" (click)="editUser(user)">
-      <ion-card-content *ngIf="user.id_user != userlogued">
-        <ion-card-title class="user-title">
-          {{user.full_name}}
-        </ion-card-title>
-        <ion-item class="ion-float-right ion-no-padding">
-          <ion-icon name="eye-outline" color="secondary" ></ion-icon>
-        </ion-item>
-      </ion-card-content>
-      <ion-ripple-effect></ion-ripple-effect>
-    </ion-card>
+  <ion-list class="users ion-no-padding">
+    <ion-virtual-scroll [items]="users" approxItemHeight="70px" >
+      <div *virtualItem="let user; let i = index">
+        <ion-card  *ngIf="user.id_user != userData.user.id_user"  class="ion-activatable ripple-parent ion-no-margin" (click)="editUser(user)">      
+        <ion-card-content class="ion-padding ">
+          <div class="left">
+            <ion-avatar >
+              <img [src]="user.avatar || 'assets/avatar.jpg'" />
+            </ion-avatar>
+            <div class="text">
+            <ion-card-title >{{ user.full_name }}</ion-card-title>
+            <ion-card-subtitle>{{ user.email }}</ion-card-subtitle>
+            </div>
+          </div>
+          <ion-badge *ngIf="user.role == '1'" color="primary">Admin</ion-badge>
+          <ion-badge *ngIf="user.role == '3'" color="secondary">Usuario</ion-badge>
+        </ion-card-content>
+        <ion-ripple-effect></ion-ripple-effect>
+      </ion-card>
+      </div>
+     
+    </ion-virtual-scroll>
   </ion-list>
 </ion-content>

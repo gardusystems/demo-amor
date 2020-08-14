@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar style="padding-right : 0">
-    <ion-title>{{nombre}} {{apellido}}</ion-title>
+  <ion-toolbar  style="padding-right : 0; padding-left : 52px">
+    <ion-title>{{user.full_name}}</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="closeModal()">
           <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -8,21 +8,41 @@
       </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
-  <ion-list>
-    <ion-item>
-      <ion-label>Nombre: {{user.full_name}}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Correo: {{user.email}}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Rol: {{user.role}}</ion-label>
-    </ion-item>
-  </ion-list>
-<ion-item>
-  <ion-label>Hacer Usuario Administrador</ion-label>
+<ion-content class="">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title >Administrador</ion-card-title>
+      <ion-toggle (click)="message()" #rol checked="{{user.role == '1' ? true:false}}"></ion-toggle>
+    </ion-card-header>
 
-  <ion-toggle (click)="message()" #rol checked="{{user.role == '1' ? true:false}}"></ion-toggle>
-</ion-item>
+    <ion-card-content >
+      <div class="avatar-container">
+        <ion-avatar>
+          <ion-img #avatar [src]="user.avatar || 'assets/avatar.jpg'"></ion-img>
+        </ion-avatar>
+      </div>  
+      <ion-label color="secondary" style="font-weight: bold;">{{user.full_name}}</ion-label>
+      <ion-label >{{user.email}}</ion-label>
+      <ion-label *ngIf="user.role == '1'" color="primary">Administrador</ion-label>
+      <ion-label *ngIf="user.role == '3'" >Usuario</ion-label>
+    </ion-card-content>    
+  </ion-card>
+
+    <ion-list class="content">
+      <ion-list-header>
+        <ion-label color="secondary">Talleres suscritos</ion-label>
+      </ion-list-header>
+
+      <ion-virtual-scroll [items]="workshopsUser" approxItemHeight="70px" >
+        <ion-card *virtualItem="let workshopsUser; let i = index">
+          <ion-card-title >{{workshopsUser.title}}</ion-card-title>
+          <ion-card-subtitle>{{workshopsUser.started_at | date :'short'}}</ion-card-subtitle>
+        </ion-card>
+      </ion-virtual-scroll>
+
+      <ion-item *ngIf="workshopsUser.length == 0">
+        <ion-label style="text-align: center;">No hay talleres disponibles</ion-label>
+      </ion-item>
+    </ion-list>
+
 </ion-content>

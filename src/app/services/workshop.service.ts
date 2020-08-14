@@ -82,6 +82,12 @@ export class WorkshopService {
 
     return this.http.post(`${this.API_URL}admin/add-workshop`, formData, {headers: new HttpHeaders()});
   }
+  workshopsByUser(id_user, token){
+    let formData = new FormData();
+    formData.append('id_user', id_user);
+    formData.append('token', token);
+     return this.http.post(`${this.API_URL}admin/workshops-list`, formData, {headers: new HttpHeaders()});
+  }
 
   searchWorkshop(search,  token){
     let formData = new FormData();
@@ -92,5 +98,12 @@ export class WorkshopService {
     return this.http.post(`${this.API_URL}admin/search-workshops`, formData, {headers: new HttpHeaders()});
   }
 
+  getUsers(id_workshop, token){
+    let formData = new FormData();
 
+    formData.append('id_workshop', id_workshop);
+    formData.append('token', token);
+
+    return this.http.post(`${this.API_URL}admin/users-list`, formData, {headers: new HttpHeaders()});
+  }
 }

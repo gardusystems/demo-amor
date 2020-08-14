@@ -1,7 +1,7 @@
 <ion-card>
   <ion-card-header >
     <ion-card-title>{{ editing ? 'Editar Lección' : 'Agregar Lección'}}</ion-card-title>
-    <ion-button fill="clear" color="secondary" (click)="save(lessonForm.value)">
+    <ion-button fill="clear" color="secondary" [disabled]="!lessonForm.valid" (click)="save(lessonForm.value)">
       Guardar
     </ion-button>
   </ion-card-header>
