@@ -114,6 +114,18 @@ export class AuthService {
     });
   }
 
+  changePassword(token, password, new_password){
+    let form = new FormData();
+
+    form.append("token", token);
+    form.append("password", password);
+    form.append("new_password", new_password);
+
+    return this.http.post(`${this.API_URL}change-password`,form, {
+      headers: new HttpHeaders(),
+    });
+  }
+
   editSelf(token, full_name){
     let form = new FormData();
 
@@ -128,9 +140,13 @@ export class AuthService {
 
   modal;
 
-  getUsers(token){
+  getUsers(token, page, limit){
     let formToken = new FormData();
+    
     formToken.append("token", token.toString());
+    
+    formToken.append("page", page.toString());
+    formToken.append("limit", limit.toString());
     
     return this.http.post(`${this.API_URL}list`, formToken, {headers: new HttpHeaders(),});
   }

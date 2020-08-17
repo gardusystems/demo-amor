@@ -20,18 +20,10 @@ export class MenuPage implements OnInit {
     };
 
   ngOnInit() {
-    //this.authS.getIsLoggedIn().subscribe(isLoggedin => this.isLoggedIn = isLoggedin);
-
     this.authS.userData.subscribe(userData => {
       this.userData = userData;
       console.log(userData)
-  })
-    //this.menu.open();
-/*
-    this.authS.getUserData().subscribe(user => {
-      this.user = user;
-      this.isLoggedIn = user.isLoggedIn;
-    });*/
+    });
   }
 
   closeMenu(){

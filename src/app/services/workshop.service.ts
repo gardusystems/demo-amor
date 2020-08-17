@@ -98,6 +98,15 @@ export class WorkshopService {
     return this.http.post(`${this.API_URL}admin/search-workshops`, formData, {headers: new HttpHeaders()});
   }
 
+  searchUsers(search, token){
+    let formData = new FormData();
+
+    formData.append('search', search.toString().toLowerCase());
+    formData.append('token', token);
+
+    return this.http.post(`${this.API_URL}admin/search-users`, formData, {headers: new HttpHeaders()});
+  }
+
   getUsers(id_workshop, token){
     let formData = new FormData();
 

@@ -40,7 +40,11 @@
               },
               {
                 "input": "src/global.scss"
+              },
+              {
+                "input": "node_modules/plyr/dist/plyr.css"
               }
+
             ],
             "scripts": []
           },

@@ -11,6 +11,10 @@ import { ModalPdfPage } from '../modal-pdf/modal-pdf.page';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
 import { MainPipeModule } from 'src/app/modules/main-pipe/main-pipe.module';
 import { CommentFormComponent } from '../comment-form/comment-form.component';
+import { AudioComponent } from 'src/app/components/audio/audio.component';
+import { PlyrModule } from 'ngx-plyr';
+import { VideoComponent } from 'src/app/components/video/video.component';
+import { PdfComponent } from 'src/app/components/pdf/pdf.component';
 
 @NgModule({
   imports: [
@@ -18,9 +22,12 @@ import { CommentFormComponent } from '../comment-form/comment-form.component';
     FormsModule,
     IonicModule,
     DoWorkshopPageRoutingModule,
-    MainPipeModule
+    MainPipeModule,
+    PlyrModule
   ],
-  declarations: [DoWorkshopPage, ModalPdfPage, AudioPlayerComponent, CommentFormComponent],
+  declarations: [DoWorkshopPage, ModalPdfPage, AudioPlayerComponent, CommentFormComponent, 
+    AudioComponent, VideoComponent, PdfComponent
+  ],
   entryComponents:[ModalPdfPage],
 })
 export class DoWorkshopPageModule {}

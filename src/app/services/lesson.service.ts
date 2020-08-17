@@ -71,4 +71,22 @@ export class LessonService {
     return this.http.post(`${this.API_URL}admin/edit-lesson`, formData, {headers: new HttpHeaders()});
   }
 
+  addLessonContent(token, id_lesson, content){
+    let formData = new FormData();
+    console.log(content.title)
+  
+    formData.append('id_lesson', id_lesson);
+    formData.append('type', content.type);
+    formData.append('token', token);
+    formData.append('title', content.title);
+
+    if(content.type !== '1'){
+      formData.append('content_file', content.content_file);
+    }else {
+      formData.append('url', content.url);
+    }
+
+    return this.http.post(`${this.API_URL}admin/add-lesson-content`, formData, {headers: new HttpHeaders()});
+  }
+
 }
