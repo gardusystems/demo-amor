@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
@@ -8,9 +16,9 @@ import {
 import { AlertService } from "src/app/services/shared/alert.service";
 import { AuthService } from "src/app/services/auth.service";
 
-import { Chooser, ChooserResult } from '@ionic-native/chooser/ngx';
-import { IonInput } from '@ionic/angular';
-import { emit } from 'process';
+import { Chooser, ChooserResult } from "@ionic-native/chooser/ngx";
+import { IonInput } from "@ionic/angular";
+import { emit } from "process";
 
 @Component({
   selector: "app-content-form",
@@ -25,14 +33,19 @@ export class ContentFormComponent implements OnInit {
 
   contentForm: FormGroup;
 
-  filename ="";
+  filename = "";
   uploading = false;
   fileSelected = false;
   newFile;
 
   validation_messages = {
-    url: [{ type: "required", message: "La url es requerida" },
-    { type: "pattern", message: "La url no coincide con un video de YouTube" }],
+    url: [
+      { type: "required", message: "La url es requerida" },
+      {
+        type: "pattern",
+        message: "La url no coincide con un video de YouTube",
+      },
+    ],
   };
   constructor(
     private alertService: AlertService,
@@ -40,38 +53,34 @@ export class ContentFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private chooser: Chooser
   ) {
-    const urlReg = '^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$';
-
+    const urlReg = "^(https?://)?(www.youtube.com|youtu.?be)/.+$";
 
     this.contentForm = this.formBuilder.group({
-      type: new FormControl(
-        '1'
+      type: new FormControl("1"),
+      title: new FormControl(""),
+      url: new FormControl(
+        "",
+        Validators.compose([Validators.required, Validators.pattern(urlReg)])
       ),
-      title: new FormControl(
-        ""
-      ),
-      url: new FormControl("", Validators.compose([Validators.required, Validators.pattern(urlReg)])),
     });
   }
 
-
   ngOnInit() {
     if (this.editing) {
-      this.contentForm.controls['type'].disable();
+      this.contentForm.controls["type"].disable();
       this.contentForm.patchValue({
         title: this.content.title,
         url: this.content.url,
       });
+      console.log(this.content);
     } else {
     }
   }
 
   @ViewChild("file") file: ElementRef;
 
-  fileChange(event){
-
-    if(event){
-
+  fileChange(event) {
+    if (event) {
       let file: File = event.target.files[0];
 
       this.filename = file.name;
@@ -80,63 +89,92 @@ export class ContentFormComponent implements OnInit {
     }
   }
 
-
-  selectChange(){
-    if(this.content.type !== '1'){
+  selectChange() {
+    if (this.content.type !== "1") {
       setTimeout(() => {
         this.filename = "";
         this.fileSelected = false;
         this.newFile = null;
       });
     }
-
   }
 
-  save(){
+  save() {
     let emmitObject = {
       action: 1,
-      content : {}
-    }
+      content: {
+        type: this.content.type,
+        title: this.contentForm.controls["title"].value,
+      },
+      error: {
+        value: false,
+        message: "",
+      },
+    };
 
-    if(this.editing){
-      emmitObject.action = 2; 
+    let valid = false;
 
+    if(this.content.type != '1'){
 
-    }
-    else {
-     
-      if(this.content.type == '1'){
-        emmitObject.content = {
-          type: this.content.type,
-          title: this.contentForm.controls['title'].value,
-          url: this.contentForm.controls['url'].value
-        };
+      if(this.fileSelected || this.content.title != emmitObject.content.title){
+        valid = true;
       }
-      else {
-        emmitObject.content =  {
-          type: this.content.type,
-          title: this.contentForm.controls['title'].value,
-          content_file: this.newFile
-        };
+    }else {
+      if(this.content.url != this.contentForm.controls["url"].value || this.content.title != emmitObject.content.title){
+        valid = true;
       }
-      this.resetForm();
     }
-    
-    this.saveContent.emit(emmitObject)
+
+    if(valid){
+      if (this.editing) {
+        emmitObject.action = 2;
+        emmitObject.content["id_lesson_content"] = this.content.id_lesson_content;
+  
+        if (this.content.type == "1") {
+          emmitObject.content["url"] = this.contentForm.controls["url"].value;
+        } else {
+          emmitObject.content["content_file"] = this.newFile;
+        }
+  
+        if (this.content.type !== "1") {
+          setTimeout(() => {
+            this.filename = "";
+            this.fileSelected = false;
+            this.newFile = null;
+          });
+        }
+      } else {
+        if (this.content.type == "1") {
+          emmitObject.content["url"] = this.contentForm.controls["url"].value;
+        } else {
+          emmitObject.content["content_file"] = this.newFile;
+        }
+  
+        this.resetForm();
+      }
+    }else {
+      emmitObject.error = {
+        value: true,
+        message: "No hay cambios que guardar."
+      }
+    }
+
+    this.saveContent.emit(emmitObject);
   }
 
-  resetForm(){
+  resetForm() {
     this.contentForm.reset();
-    this.content.type = '1';
+    this.content.type = "1";
   }
 
-  async choose(){
+  async choose() {
     this.uploading = true;
-    await this.chooser.getFile('audio/*')
+    await this.chooser
+      .getFile("audio/*")
       .then((file: ChooserResult) => {
-        this.filename =  file.name;
+        this.filename = file.name;
         this.uploading = false;
-        alert(JSON.stringify(file))
+        alert(JSON.stringify(file));
       })
       .catch((error: any) => console.error(error));
   }

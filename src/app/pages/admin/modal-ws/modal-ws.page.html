@@ -6,7 +6,10 @@
         <ion-icon slot="icon-only"  name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+    
   </ion-toolbar>
+
+  <ion-progress-bar *ngIf="loading" type="indeterminate" color="secondary"></ion-progress-bar>
 </ion-header>
 
 <ion-content>

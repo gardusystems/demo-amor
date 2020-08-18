@@ -21,6 +21,7 @@ export class ModalWsPage implements OnInit {
   userSubscription : Subscription;
   lesson: any = {};
 
+  loading = true;
   userData: any = {
     isLoggedIn: false,
   };
@@ -98,8 +99,7 @@ export class ModalWsPage implements OnInit {
       .subscribe((response: any) => {
         if(response && response.status == 200){
           this.lesson = response.lesson;
-
-          console.log(this.lesson)
+          this.loading = false;
           //this.totalComments = response.total_comments;
 
           if(this.lesson.total_comments > 0){
@@ -124,6 +124,7 @@ export class ModalWsPage implements OnInit {
       this.lessonService.editLesson(lesson, this.userData.user.token).subscribe((res : any) => {
         if(res.status == 200) {
           this.edited = true;
+          this.alertService.presentToast("La lección ha sido actualizada correctamente.", 3000) 
           this.loadLesson();
         }
       });
@@ -135,33 +136,33 @@ export class ModalWsPage implements OnInit {
   }
 
   saveContent(event){
-    let content = event.content;
-    if(event.action == 1){
-      this.presentLoading()
-      this.lessonService.addLessonContent(this.userData.user.token, this.lesson.id_lesson, content)
-      .subscribe((res: any) => {
-        console.log(res);
-        if(res && res.status == 200){
-          this.alertService.presentToast(res.message, 3000);
-          this.loader.dismiss();
-          this.loadLesson();
-        }
-      })
+    this.loading = true;
+    if(!event.error.value){
+      let content = event.content;
+      if(event.action == 1){
+        this.lessonService.addLessonContent(this.userData.user.token, this.lesson.id_lesson, content)
+        .subscribe((res: any) => {
+          console.log(res);
+          if(res && res.status == 200){
+            this.alertService.presentToast(res.message, 3000);
+            this.loadLesson();
+          }
+        })
+      }
+      else{
+        this.lessonService.editLessonContent(this.userData.user.token, content).subscribe((res: any) => {
+          console.log(res)
+          if(res && res.status == 200){
+            this.alertService.presentToast(res.message, 3000);
+            this.loadLesson();
+          }
+        })
+      }
+    }else {
+      
+      this.alertService.presentToast(event.error.message, 3000);
     }
-    else{
-
-    }
-  }
-  loader = null;
-  async presentLoading() {
-    this.loader = await this.loadingController.create({
-      message: 'Procesando...',
-      backdropDismiss: false
-    });
-    await this.loader.present();
-
-    const { role, data } = await this.loader.onDidDismiss();
-
+    
   }
 
   async closeModal(){

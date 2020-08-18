@@ -15,6 +15,7 @@ import { AudioComponent } from 'src/app/components/audio/audio.component';
 import { PlyrModule } from 'ngx-plyr';
 import { VideoComponent } from 'src/app/components/video/video.component';
 import { PdfComponent } from 'src/app/components/pdf/pdf.component';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -23,10 +24,11 @@ import { PdfComponent } from 'src/app/components/pdf/pdf.component';
     IonicModule,
     DoWorkshopPageRoutingModule,
     MainPipeModule,
-    PlyrModule
+    PlyrModule,
+    SharedModule
   ],
   declarations: [DoWorkshopPage, ModalPdfPage, AudioPlayerComponent, CommentFormComponent, 
-    AudioComponent, VideoComponent, PdfComponent
+    
   ],
   entryComponents:[ModalPdfPage],
 })

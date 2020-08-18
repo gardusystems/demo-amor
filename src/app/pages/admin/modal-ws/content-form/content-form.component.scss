@@ -23,9 +23,12 @@ ion-card-header {
         align-items: center;
         justify-content: space-around;
 
-        
+        /*
         background: rgb(21,87,153);
-        background: radial-gradient(circle, rgba(var(--ion-color-secondary-rgb),.5) 0%, rgba(var(--ion-color-secondary-rgb),1) 80%);
+        background: radial-gradient(circle, rgba(var(--ion-color-secondary-rgb),.5) 0%, rgba(var(--ion-color-secondary-rgb),1) 80%);*/
+        
+        background: rgb(var(--ion-color-primary-rgb));
+        background: radial-gradient(circle, rgba(var(--ion-color-primary-rgb),.5) 0%, rgba(var(--ion-color-primary-rgb),1) 80%);
   
         ion-icon {
             font-size: 24px;

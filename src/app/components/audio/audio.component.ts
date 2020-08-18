@@ -12,7 +12,7 @@ export class AudioComponent implements OnInit {
   ngOnInit() {
     this.audioSources = [
       {
-        src: this.url
+        src: this.url+ '&date=' + new Date().getTime(),
       }
     ]
   }
